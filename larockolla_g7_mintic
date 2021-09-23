@@ -24,7 +24,8 @@ create table cancion(
 codigo_canc varchar(15) not null,
 nombre_canc varchar (100) not null,
 album varchar(100) not null,
-duracion varchar (50) not null,
+año double not null,
+duracion double not null,
 idioma varchar (50) not null,
 lugar_grab varchar (50) not null,
 pais_grab varchar (50) not null,
@@ -45,13 +46,14 @@ ciudad_res varchar (50) not null,
 pais_res varchar(50) not null,
 direccion varchar(60) not null,
 pais_naci varchar(50) not null,
-fecha_naci varchar(60) not null,
-edad varchar(3) not null,
-sexo varchar(10) not null,
-tel varchar (10) not null,
+fecha_naci date not null,
+edad double not null,
+sexo varchar(1) not null,
+tel varchar (10),
 cel varchar (10) not null,
 correo_ele varchar (50) not null,
-constraint usuario_pk primary key(numero_ident));
+constraint usuario_pk primary key(numero_ident),
+constraint usuario_sexo_ck check(sexo='M' or sexo='F'));
 
 create table moderador(
 codigo_mod varchar(15) not null,
@@ -65,11 +67,46 @@ ciudad_res varchar (50) not null,
 pais_res varchar(50) not null,
 direccion varchar(60) not null,
 pais_naci varchar(50) not null,
-fecha_naci varchar(60) not null,
-edad varchar(3) not null,
-sexo varchar(10) not null,
-tel varchar (10) null,
+fecha_naci date not null,
+edad double not null,
+sexo varchar(1) not null,
+tel varchar (10),
 cel varchar (10) not null,
 correo_ele varchar (50) not null,
 constraint moderador_pk primary key(codigo_mod),
+constraint moderador_sexo_ck check(sexo='M' or sexo='F'),
 constraint moderador_numero_ident_fk foreign key (numero_ident) references usuario(numero_ident));
+create table compositor_cancion (
+codigo_comp varchar(15) not null,
+codigo_canc varchar(15) not null,
+constraint compositor_cancion_pk primary key(codigo_comp, codigo_canc),
+constraint compositor_cancion_codigo_comp_fk foreign key (codigo_comp) references compositor(codigo_comp),
+constraint compositor_cancion_codigo_canc_fk foreign key (codigo_canc) references cancion(codigo_canc));
+create table interprete_cancion (
+codigo_interp varchar(15) not null,
+codigo_canc varchar(15) not null,
+constraint interprete_cancion_pk primary key(codigo_interp, codigo_canc),
+constraint interprete_cancion_codigo_interp_fk foreign key (codigo_interp) references interprete(codigo_interp),
+constraint interprete_cancion_codigo_canc_fk foreign key (codigo_canc) references cancion(codigo_canc));
+create table productor_cancion (
+codigo_produc varchar(15) not null,
+codigo_canc varchar(15) not null,
+constraint productor_cancion_pk primary key(codigo_produc, codigo_canc),
+constraint productor_cancion_codigo_produc_fk foreign key (codigo_produc) references productor(codigo_produc),
+constraint productor_cancion_codigo_canc_fk foreign key (codigo_canc) references cancion(codigo_canc));
+create table usuario_cancion (
+numero_ident varchar(15) not null,
+codigo_canc varchar(15) not null,
+constraint usuario_cancion_pk primary key(numero_ident, codigo_canc),
+constraint usuario_cancion_numero_ident_fk foreign key (numero_ident) references usuario(numero_ident),
+constraint usuario_cancion_codigo_canc_fk foreign key (codigo_canc) references cancion(codigo_canc));
+create table moderador_cancion (
+codigo_mod varchar(15) not null,
+codigo_canc varchar(15) not null,
+constraint moderador_cancion_pk primary key(codigo_mod, codigo_canc),
+constraint moderador_cancion_codigo_mod_fk foreign key (codigo_mod) references moderador(codigo_mod),
+constraint moderador_cancion_codigo_canc_fk foreign key (codigo_canc) references cancion(codigo_canc));
+
+
+
+
