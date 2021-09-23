@@ -1,0 +1,75 @@
+create database larockola_g7_mintic;
+use larockola_g7_mintic;
+create table compositor (
+codigo_comp varchar(15) not null,
+nombre_comp varchar(60) not null,
+constraint compositor_pk primary key(codigo_comp)); 
+create table interprete (
+codigo_interp varchar(15) not null,
+nombre_interp varchar(60) not null,
+constraint interprete_pk primary key(codigo_interp)); 
+create table productor (
+codigo_produc varchar(15) not null,
+nombre_produc varchar(60) not null,
+constraint productor_pk primary key(codigo_produc)); 
+create table discografica (
+codigo_disc varchar(15) not null,
+nombre_disc varchar(60) not null,
+constraint discografica_pk primary key(codigo_disc));
+create table genero_musical (
+codigo_gen varchar(15) not null,
+nombre_gen varchar(60) not null,
+constraint genero_musical_pk primary key(codigo_gen)); 
+create table cancion(
+codigo_canc varchar(15) not null,
+nombre_canc varchar (100) not null,
+album varchar(100) not null,
+duracion varchar (50) not null,
+idioma varchar (50) not null,
+lugar_grab varchar (50) not null,
+pais_grab varchar (50) not null,
+codigo_disc varchar(15) not null,
+codigo_gen varchar(15) not null,
+constraint cancion_pk primary key(codigo_canc),
+constraint cancion_codigo_disc_fk foreign key (codigo_disc) references discografica(codigo_disc),
+constraint cancion_codigo_gen_fk foreign key (codigo_gen) references genero_musical(codigo_gen));
+
+create table usuario(
+numero_ident varchar (15) not null,
+tipo_ident varchar (2) not null,
+primer_nomb varchar(100) not null,
+segundo_nomb varchar (100) not null,
+primer_ape varchar (100) not null,
+segundo_ape varchar (100) not null,
+ciudad_res varchar (50) not null,
+pais_res varchar(50) not null,
+direccion varchar(60) not null,
+pais_naci varchar(50) not null,
+fecha_naci varchar(60) not null,
+edad varchar(3) not null,
+sexo varchar(10) not null,
+tel varchar (10) not null,
+cel varchar (10) not null,
+correo_ele varchar (50) not null,
+constraint usuario_pk primary key(numero_ident));
+
+create table moderador(
+codigo_mod varchar(15) not null,
+numero_ident varchar(15) not null,
+tipo_ident varchar (2) not null,
+primer_nomb varchar(100) not null,
+segundo_nomb varchar (100) not null,
+primer_ape varchar (100) not null,
+segundo_ape varchar (100) not null,
+ciudad_res varchar (50) not null,
+pais_res varchar(50) not null,
+direccion varchar(60) not null,
+pais_naci varchar(50) not null,
+fecha_naci varchar(60) not null,
+edad varchar(3) not null,
+sexo varchar(10) not null,
+tel varchar (10) null,
+cel varchar (10) not null,
+correo_ele varchar (50) not null,
+constraint moderador_pk primary key(codigo_mod),
+constraint moderador_numero_ident_fk foreign key (numero_ident) references usuario(numero_ident));
